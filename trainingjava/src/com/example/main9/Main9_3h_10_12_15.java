@@ -18,6 +18,8 @@ public class Main9_3h_10_12_15 {
     // public Main9_3h_10_12() {
     //     this.hp = 100;
     //     this.name = "ダミー";
+    // どっちも可能
+
 
     public Main9_3h_10_12_15() {
         this("ダミー");

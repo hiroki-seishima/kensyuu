@@ -1,5 +1,5 @@
 package com.example.main12;
-
+//ウィザードのクラス（キャラクターの抽象クラスを継承）
 public class Main12_2w extends Main12_2c{
     int mp;
     public void attack(Matango m) {

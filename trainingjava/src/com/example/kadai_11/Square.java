@@ -7,7 +7,7 @@ public class Square extends Rectangle{
         // →親クラスから呼び出すのはsuper
     }
     public void draw() {
-        System.out.println("[正方形を描画]点(" + p.getX() + "," + p.getY() +")を基準として幅"+ width + "高さ" + width + "の正方形");
+        System.out.println("[正方形を描画]点(" + p.getX() + "," + p.getY() +")を基準として幅・高さ" + width + "の正方形");
     }
 
 

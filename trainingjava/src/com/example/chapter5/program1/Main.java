@@ -11,6 +11,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("面接する人数は？");
         int x = sc.nextInt();//面接参加人数を入力
+        sc.nextLine();
         System.out.println(x + "人面接に来た");
 
         for (int z=0; z<x; z++){

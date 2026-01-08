@@ -9,9 +9,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.moattravel.entity.House;
+import com.example.moattravel.form.HouseRegisterForm;
 import com.example.moattravel.repository.HouseRepository;
 
 @Controller
@@ -24,13 +27,33 @@ public class AdminHouseController {
     }
 
     @GetMapping
-    public String index(Model model,@PageableDefault(page  = 0, size = 10,sort = "id", direction = Direction.ASC) Pageable pageable){
+    public String index(Model model,@PageableDefault(page  = 0, size = 10,sort = "id", direction = Direction.ASC) Pageable pageable,@RequestParam(name = "keyword",required = false)String keyword){
         //  List<House> houses = houseRepository.findAll();  //リスト宣言 8.3で不要
-        Page<House> housePage = houseRepository.findAll(pageable);  //ページ宣言
+        // Page<House> housePage = houseRepository.findAll(pageable);  //ページ宣言
+        Page<House>housePage;
+        if(keyword != null && !keyword.isEmpty()){
+            housePage = houseRepository.findByNameLike("%" + keyword + "%" , pageable);
+        }else{
+            housePage = houseRepository.findAll(pageable);
+        }
 
         // model.addAttribute("houses",houses);　//8.3で不要
         model.addAttribute("housePage",housePage);
+        model.addAttribute("keyword",keyword);
 
         return  "admin/houses/index";
+    }
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable(name = "id") Integer id,Model model){
+        House house = houseRepository.getReferenceById(id);
+        model.addAttribute("house",house);
+        return "admin/houses/show";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute("houseRegisterForm", new HouseRegisterForm());
+        return "admin/houses/register";
     }
 }

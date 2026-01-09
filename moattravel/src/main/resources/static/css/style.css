@@ -68,6 +68,23 @@ footer {
     white-space: pre-wrap;
 }
 
+.moattravel-link-danger {  /* 16章で追加 */
+    color: #f2594b;
+}
+
+.moattravel-link-danger:hover { /* 16章で追加 */
+    color: #a63c3c; /* 16章で追加 */
+}
+
+.moattravel-btn-danger { /* 16章で追加 */
+    background-color: #f2594b !important; /* 16章で追加 */
+    transition: 0.1s; /* 16章で追加 */
+}
+
+.moattravel-btn-danger:hover { /* 16章で追加 */
+    opacity: 0.8; /* 16章で追加 */
+}
+
 @media screen and (min-width: 1400px) {
     .moattravel-container {
         max-width: 1200px;

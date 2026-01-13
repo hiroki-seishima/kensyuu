@@ -1,11 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <div th:replace="~{fragment :: meta}"></div>  <!--19章で追加-->
+
+        <div th:replace="~{fragment :: styles}"></div>  <!--19章で追加-->
+
         <title>moat Travel</title>
     </head>
     <body>
-        <p>Hello,World!</p>
+        <!-- <p>Hello,World!</p> -->
+        <div class="moattravel-wrapper">
+        <!-- ヘッダー -->
+            <div th:replace="~{fragment :: header}"></div>  <!--19章で追加-->
+
+            <main>  <!--19章で追加-->
+                <div class="container pt-4 pb-5 moattravel-container">  <!--19章で追加-->
+                    <div th:if="${param.loggedIn}" class="alert alert-info">  <!--19章で追加-->
+                        ログインしました。  <!--19章で追加-->
+                    </div>  
+
+                    <div th:if="${param.loggedOut}" class="alert alert-info">  <!--19章で追加-->
+                        ログアウトしました。  <!--19章で追加-->
+                    </div>
+                </div>
+            </main>
+
+            <!-- フッター -->  <!--19章で追加-->
+            <div th:replace="~{fragment :: footer}"></div>  <!--19章で追加-->
+        </div>    
+    
+        <div th:replace="~{fragment :: scripts}"></div>  <!--19章で追加-->
     </body>
 </html>

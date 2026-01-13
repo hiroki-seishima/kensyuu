@@ -85,6 +85,10 @@ footer {
     opacity: 0.8; /* 16章で追加 */
 }
 
+.moattravel-dropdown-item:active {  /* 20章で追加 */
+    background-color: #5196a6;
+}
+
 @media screen and (min-width: 1400px) {
     .moattravel-container {
         max-width: 1200px;

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
-        <div th:replace="~{fragment :: meta}"></div>   
+        <div th:replace="~{fragment :: meta}"></div> 
+
         <div th:replace="~{fragment :: styles}"></div> 
 
         <title>会員登録</title>       
-
     </head>
     <body>
         <div class="moattravel-wrapper">
@@ -15,9 +15,12 @@
         <main>
             <div class="container pt-4 pb-5 moattravel-container">
                 <div class="row justify-content-center">
-                    <div class="col-xl-5 col-lg-6 col-md-8">                    
+                    <div class="col-xl-5 col-lg-6 col-md-8">     
+
                         <h1 class="mb-4 text-center">会員登録</h1>
+
                         <form method="post" th:action="@{/signup}" th:object="${signupForm}">
+                            
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="name" class="col-form-label text-md-left fw-bold">
@@ -32,6 +35,7 @@
                                     <input type="text" class="form-control" th:field="*{name}" autocomplete="name" autofocus placeholder="MOAT 太郎">
                                 </div>
                             </div>
+
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="furigana" class="col-form-label text-md-left fw-bold">
@@ -46,6 +50,7 @@
                                     <input type="text" class="form-control" th:field="*{furigana}" placeholder="モート タロウ">
                                 </div>
                             </div>
+
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="postalCode" class="col-form-label text-md-left fw-bold">
@@ -60,6 +65,7 @@
                                     <input type="text" class="form-control" th:field="*{postalCode}" autocomplete="postal-code" placeholder="101-0022">
                                 </div>
                             </div>
+                            
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="address" class="col-form-label text-md-left fw-bold">
@@ -74,6 +80,7 @@
                                     <input type="text" class="form-control" th:field="*{address}" placeholder="東京都千代田区神田練塀町300番地">  
                                 </div>
                             </div>
+
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="phoneNumber" class="col-form-label text-md-left fw-bold">
@@ -88,6 +95,7 @@
                                     <input type="text" class="form-control" th:field="*{phoneNumber}" autocomplete="tel-national" placeholder="090-1234-5678">                                
                                 </div>
                             </div>
+
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="email" class="col-form-label text-md-left fw-bold">
@@ -102,6 +110,7 @@
                                     <input type="text" class="form-control" th:field="*{email}" autocomplete="email" placeholder="taro.moat@example.com">
                                 </div>
                             </div>
+
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="password" class="col-form-label text-md-left fw-bold">
@@ -116,6 +125,7 @@
                                     <input type="password" class="form-control" th:field="*{password}" autocomplete="new-password">
                                 </div>
                             </div>
+
                             <div class="form-group row mb-3">
                                 <div class="col-md-5">
                                     <label for="passwordConfirmation" class="col-form-label text-md-left fw-bold">
@@ -130,10 +140,12 @@
                                     <input type="password" class="form-control" th:field="*{passwordConfirmation}" autocomplete="new-password">
                                 </div>
                             </div>
+
                             <div class="form-group d-flex justify-content-center my-4">
                                 <button type="submit" class="btn text-white shadow-sm w-50 moattravel-btn">登録</button>
                             </div>
                         </form>
+
                         <div class="text-center">
                             <a th:href="@{/login}">ログイン</a>
                         </div>
@@ -141,9 +153,11 @@
                 </div>
             </div>
         </main>
+
         <!-- フッター -->
          <div th:replace="~{fragment :: footer}"></div>
-        </div>    
+        </div>  
+          
         <div th:replace="~{fragment :: scripts}"></div>
     </body>
 </html>

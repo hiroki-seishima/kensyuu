@@ -24,6 +24,10 @@
                     <div th:if="${param.loggedOut}" class="alert alert-info">  <!--19章で追加-->
                         ログアウトしました。  <!--19章で追加-->
                     </div>
+                    
+                    <div th:if="${successMessage}" class="alert alert-info">
+                        <span th:text="${successMessage}"></span>
+                    </div>
                 </div>
             </main>
 

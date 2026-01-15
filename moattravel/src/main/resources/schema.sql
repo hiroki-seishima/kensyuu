@@ -41,3 +41,17 @@ CREATE TABLE IF NOT EXISTS verification_tokens (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) 
 );
+
+CREATE TABLE IF NOT EXISTS reservations (  -- 31章で追加
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 31章で追加
+    house_id INT NOT NULL,  -- 31章で追加
+    user_id INT NOT NULL,  -- 31章で追加
+    checkin_date DATE NOT NULL,  -- 31章で追加
+    checkout_date DATE NOT NULL,  -- 31章で追加
+    number_of_people INT NOT NULL,  -- 31章で追加
+    amount INT NOT NULL,  -- 31章で追加
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- 31章で追加
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- 31章で追加
+    FOREIGN KEY (house_id) REFERENCES houses (id),  -- 31章で追加
+    FOREIGN KEY (user_id) REFERENCES users (id)  -- 31章で追加
+);

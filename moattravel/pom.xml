@@ -85,8 +85,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
-
+		<dependency> <!--37章で追加-->
+			<groupId>com.stripe</groupId>  <!--37章で追加-->
+			<artifactId>stripe-java</artifactId>  <!--37章で追加-->
+			<version>29.3.0</version>  <!--37章で追加-->
+		</dependency>        
+	</dependencies>	
 	<build>
 		<plugins>
 			<plugin>

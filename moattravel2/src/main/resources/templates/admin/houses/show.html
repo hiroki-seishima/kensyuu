@@ -38,7 +38,8 @@
                     <h1 class="mb-4 text-center" th:text="${house.getName()}"></h1>
                     <div class="d-flex justify-content-end align-items-end mb-3">
                         <div>
-                            <a href="#">編集</a>
+                            <!-- <a href="#">編集</a> 14-5でeditを追加したため削除-->
+                            <a th:href="@{/admin/houses/__${house.getId()}__/edit}">編集</a>  <!--14-5で追加-->
                         </div>
                     </div>
                     <div class="mb-3">

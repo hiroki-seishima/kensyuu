@@ -1,15 +1,40 @@
-<!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">  <!--このファイルではThymeleafを利用しますと宣言-->
+<!DOCTYPE html> <!--19-5-->
+
+
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--20-3でxmlns:sec="http://www.thymeleaf.org/extras/spring-security"を追加-->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-
-scale=1">
+    <div th:replace="~{fragment :: meta}"></div>
+
+    <div th:replace="~{fragment :: styles}"></div>
+
     <title>moat Travel</title>
 </head>
 
 <body>
-    <p>Hello, world!</p>
+    <div class="moattravel-wrapper">
+        <!-- ヘッダー -->
+        <div th:replace="~{fragment :: header}"></div>
+
+        <main>
+            <div class="container pt-4 pb-5 moattravel-container">
+                <div th:if="${param.loggedIn}" class="alert alert-info">
+                    ログインしました。
+                </div>
+
+                <div th:if="${param.loggedOut}" class="alert alert-info">
+                    ログアウトしました。
+                </div>
+                <div th:if="${successMessage}" class="alert alert-info">  <!--22-5で追加-->
+                    <span th:text="${successMessage}"></span>  <!--22-5で追加-->
+                </div>
+            </main>
+        <!-- フッター -->
+        <div th:replace="~{fragment :: footer}"></div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
 </body>
 
 </html>

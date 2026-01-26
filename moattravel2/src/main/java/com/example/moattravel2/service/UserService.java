@@ -37,7 +37,7 @@ public class UserService {
         user.setEmail(signupForm.getEmail());
         user.setPassword(passwordEncoder.encode(signupForm.getPassword())); // encode()メソッドでパスワードをハッシュ化
         user.setRole(role);
-        user.setEnabled(true);
+        user.setEnabled(false); // 24-3でfalseに変更
 
         return userRepository.save(user);
     }
@@ -49,7 +49,14 @@ public class UserService {
     }
 
     // パスワードとパスワード（確認用）の入力値が一致するかどうかをチェックする
-    public boolean isSamePassword(String password, String passwordConfirmation) {  //isSamePasswordはサービスクラスのメソッド
+    public boolean isSamePassword(String password, String passwordConfirmation) { // isSamePasswordはサービスクラスのメソッド
         return password.equals(passwordConfirmation);
+    }
+
+    // ユーザーを有効にする 24-3
+    @Transactional
+    public void enableUser(User user) {  //メール認証用のページ（https://ドメイン名/signup/verify?token=生成したトークン）において、認証に成功した際に実行するメソッド
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

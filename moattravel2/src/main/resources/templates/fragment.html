@@ -54,6 +54,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">
+                                <a class="dropdown-item moattravel-dropdown-item" th:href="@{/user}">会員情報</a> <!--25-2で追加-->
+                                <div class="dropdown-divider"></div>  <!--25-2で追加-->
                                 <a class="dropdown-item moattravel-dropdown-item" th:href="@{/logout}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     ログアウト
@@ -79,10 +81,29 @@
                                     ログアウト
                                 </a>
                                 <form class="d-none" id="logout-form" th:action="@{/logout}" method="post"></form>
-                            </div>
+                            </div><!--20-2ここまで追加-->
                         </li>
+                        <!-- 管理者であれば表示する 　25-2で追加-->
+                        <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                管理者メニュー
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
+                                <a class="dropdown-item moattravel-dropdown-item" th:href="@{/admin/houses}">民宿一覧</a>
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item moattravel-dropdown-item" th:href="@{/logout}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    ログアウト
+                                </a>
+                                <form class="d-none" id="logout-form" th:action="@{/logout}" method="post"></form>
+                            </div>
+                        </li>  <!--25-2ここまで追加-->
                     </ul>
-                </div> <!--20-2ここまで追加-->
+                </div>
             </div>
         </nav>
     </div>

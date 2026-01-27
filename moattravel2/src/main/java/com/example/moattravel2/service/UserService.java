@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional; //Springの宣�
 import com.example.moattravel2.entity.Role; //entity.Roleにアクセス
 import com.example.moattravel2.entity.User; //entity.Userにアクセス
 import com.example.moattravel2.form.SignupForm; //form.SignupFormにアクセス
+import com.example.moattravel2.form.UserEditForm;
 import com.example.moattravel2.repository.RoleRepository; //repository.RoleRepositoryにアクセス
 import com.example.moattravel2.repository.UserRepository; //repository.UserRepositoryにアクセス
 
@@ -42,6 +43,21 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional // 25-4で追加
+    public void update(UserEditForm userEditForm) {
+        User user = userRepository.getReferenceById(userEditForm.getId());
+
+        user.setName(userEditForm.getName());
+        user.setFurigana(userEditForm.getFurigana());
+        user.setPostalCode(userEditForm.getPostalCode());
+
+        user.setAddress(userEditForm.getAddress());
+        user.setPhoneNumber(userEditForm.getPhoneNumber());
+        user.setEmail(userEditForm.getEmail());
+
+        userRepository.save(user);
+    }
+
     // メールアドレスが登録済みかどうかをチェックする
     public boolean isEmailRegistered(String email) { // isEmailRegistered()はサービスクラスのメソッド
         User user = userRepository.findByEmail(email);
@@ -55,8 +71,13 @@ public class UserService {
 
     // ユーザーを有効にする 24-3
     @Transactional
-    public void enableUser(User user) {  //メール認証用のページ（https://ドメイン名/signup/verify?token=生成したトークン）において、認証に成功した際に実行するメソッド
+    public void enableUser(User user) { // メール認証用のページ（https://ドメイン名/signup/verify?token=生成したトークン）において、認証に成功した際に実行するメソッド
         user.setEnabled(true);
         userRepository.save(user);
+    }
+    // メールアドレスが変更されたかどうかをチェックする 25-4で追加
+    public boolean isEmailChanged(UserEditForm userEditForm) {
+        User currentUser = userRepository.getReferenceById(userEditForm.getId());
+        return !userEditForm.getEmail().equals(currentUser.getEmail());
     }
 }

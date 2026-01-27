@@ -11,6 +11,12 @@ h1 {
     font-size: 1.5rem;
 }
 
+h3 {
+    /*27-4*/
+
+    font-size: 1.25rem;
+}
+
 a {
     color: #5196a6;
     text-decoration: none !important;
@@ -73,25 +79,51 @@ footer {
     white-space: pre-wrap;
 }
 
-.moattravel-link-danger { /*16-3*/
+.moattravel-link-danger {
+    /*16-3*/
     color: #f2594b;
 }
 
-.moattravel-link-danger:hover {  /*16-3*/
+.moattravel-link-danger:hover {
+    /*16-3*/
     color: #a63c3c;
 }
 
-.moattravel-btn-danger {  /*16-3*/
+.moattravel-btn-danger {
+    /*16-3*/
     background-color: #f2594b !important;
     transition: 0.1s;
 }
 
-.moattravel-btn-danger:hover {  /*16-3*/
+.moattravel-btn-danger:hover {
+    /*16-3*/
     opacity: 0.8;
 }
 
-.moattravel-dropdown-item:active {  /*20-2で追加*/
+.moattravel-dropdown-item:active {
+    /*20-2で追加*/
     background-color: #5196a6;
+}
+
+.moattravel-card-link {
+    /*27-4*/
+    transition: 0.3s;
+}
+
+.moattravel-card-link:hover {
+    /*27-4*/
+    opacity: 0.7;
+}
+
+.moattravel-horizontal-card-image {
+    /*27-4*/
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+.moattravel-sort-box {  /*28-4で追加*/
+    width: 150px;
 }
 
 @media screen and (min-width: 1400px) {

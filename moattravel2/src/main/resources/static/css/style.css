@@ -11,6 +11,11 @@ h1 {
     font-size: 1.5rem;
 }
 
+h2 {
+    /*29-4で追加*/
+    font-size: 1.475rem;
+}
+
 h3 {
     /*27-4*/
 
@@ -122,8 +127,19 @@ footer {
     object-fit: cover;
 }
 
-.moattravel-sort-box {  /*28-4で追加*/
+.moattravel-sort-box {
+    /*28-4で追加*/
     width: 150px;
+}
+
+.moattravel-vertical-card-image { /*29-4で追加*/
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.moattravel-search-form { /*29-4で追加*/
+    max-width: 300px;
 }
 
 @media screen and (min-width: 1400px) {

@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated; //34-4で追加
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute; //34-4で追加
 import org.springframework.web.bind.annotation.PathVariable; //34-4で追加
-import org.springframework.web.bind.annotation.PostMapping; //35-3で追加
+//import org.springframework.web.bind.annotation.PostMapping; //35-3で追加　　37-6で追加
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; //34-4で追加
 
 import com.example.moattravel2.entity.House; //34-4
@@ -27,19 +27,25 @@ import com.example.moattravel2.repository.ReservationRepository;
 import com.example.moattravel2.repository.HouseRepository; //34-4で追加
 import com.example.moattravel2.security.UserDetailsImpl;
 import com.example.moattravel2.service.ReservationService; // 34-4で追加
+import com.example.moattravel2.service.StripeService;  //37-6で追加
+
+import jakarta.servlet.http.HttpServletRequest;
+
 
 @Controller
 public class ReservationController {
     private final ReservationRepository reservationRepository;
     private final HouseRepository houseRepository; // 34-4で追加
     private final ReservationService reservationService; // 34-4で追加
+    private final StripeService stripeService; // 37-6で追加
 
     public ReservationController(ReservationRepository reservationRepository, HouseRepository houseRepository,
-            ReservationService reservationService) { // 34-4を, HouseRepository houseRepository, ReservationService
-                                                     // reservationServiceで追加
+            ReservationService reservationService, StripeService stripeService) { // 34-4を, HouseRepository houseRepository, ReservationService
+                                                     // reservationServiceで追加  37-5で, StripeService stripeServiceを追加
         this.reservationRepository = reservationRepository;
         this.houseRepository = houseRepository; // 34-4で追加
         this.reservationService = reservationService; // 34-4で追加
+        this.stripeService = stripeService;  //37-6で追加
 
     }
 
@@ -87,7 +93,7 @@ public class ReservationController {
     @GetMapping("/houses/{id}/reservations/confirm") // 34-4confirm
     public String confirm(@PathVariable(name = "id") Integer id,
             @ModelAttribute ReservationInputForm reservationInputForm,
-            @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+            @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,HttpServletRequest httpServletRequest,  //37-6でHttpServletRequest httpServletRequest,を追加
             Model model) {
         House house = houseRepository.getReferenceById(id);
         User user = userDetailsImpl.getUser();
@@ -103,16 +109,19 @@ public class ReservationController {
         ReservationRegisterForm reservationRegisterForm = new ReservationRegisterForm(house.getId(), user.getId(),
                 checkinDate.toString(), checkoutDate.toString(), reservationInputForm.getNumberOfPeople(), amount);
 
+                String sessionId = stripeService.createStripeSession(house.getName(), reservationRegisterForm, httpServletRequest);  //37-6で追加
+
         model.addAttribute("house", house);
         model.addAttribute("reservationRegisterForm", reservationRegisterForm);
+        model.addAttribute("sessionId", sessionId);  //37-6で追加
 
         return "reservations/confirm";
     }
 
-    @PostMapping("/houses/{id}/reservations/create")  //35-3で追加
-    public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {
-        reservationService.create(reservationRegisterForm);
+    // @PostMapping("/houses/{id}/reservations/create")  //35-3で追加　37-6で使わないため削除
+    // public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {
+    //     reservationService.create(reservationRegisterForm);
 
-        return "redirect:/reservations?reserved";
-    }
+    //     return "redirect:/reservations?reserved";
+    // }
 }

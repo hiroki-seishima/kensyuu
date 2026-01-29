@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <!--30-3-->
+<!DOCTYPE html> <!--30-3-->
 
 
 <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -7,6 +7,9 @@
     <div th:replace="~{fragment :: meta}"></div>
 
     <div th:replace="~{fragment :: styles}"></div>
+
+    <!-- Flatpickr -->  <!--33-5で追加-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!--33章で追加-->
 
     <title>民宿詳細</title>
 </head>
@@ -126,11 +129,42 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div sec:authorize="isAuthenticated()" class="col-lg-4 px-0 ps-lg-4 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form method="get"
+                                                th:action="@{/houses/__${house.getId()}__/reservations/input}"
+                                                th:object="${reservationInputForm}">
+                                                <div class="form-group mb-2">
+                                                    <label for="fromCheckinDateToCheckoutDate"
+                                                        class="col-form-label text-md-left fw-bold">チェックイン・チェックアウト</label>
+                                                    <div th:if="${#fields.hasErrors('fromCheckinDateToCheckoutDate')}"
+                                                        class="text-danger small mb-2"
+                                                        th:errors="*{fromCheckinDateToCheckoutDate}"></div>
+                                                    <input type="text" id="fromCheckinDateToCheckoutDate" class="form-control" th:field="*{fromCheckinDateToCheckoutDate}">
+                                                    <!--カレンダーが出なかったため、id="fromCheckinDateToCheckoutDate"を追加-->
+                                                </div>
+
+                                                <div class="form-group mb-4">
+                                                    <label for="numberOfPeople"
+                                                        class="col-form-label text-md-left fw-bold">宿泊人数</label>
+                                                    <div th:if="${#fields.hasErrors('numberOfPeople')}"
+                                                        class="text-danger small mb-2" th:errors="*{numberOfPeople}">
+                                                    </div>
+                                                    <input type="number" class="form-control"
+                                                        th:field="*{numberOfPeople}" min="1">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn text-white shadow-sm w-100 moattravel-btn">予約する</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
         </main>
 
         <!-- フッター -->
@@ -138,6 +172,12 @@
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
+    
+     <!-- Flatpickr -->  <!--33-5で追加-->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  <!--33-5で追加-->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>  <!--33-5で追加-->
+        <script th:src="@{/js/flatpickr.js}"></script>  <!--33-5で追加-->
+    </body>
 </body>
 
 </html>

@@ -30,9 +30,10 @@
                         </nav>
 
                         <h1 class="mb-4 text-center">予約内容確認</h1>
-
+<!-- 
                         <form method="post" th:action="@{/houses/__${house.getId()}__/reservations/create}"
-                            th:object="${reservationRegisterForm}">
+                            th:object="${reservationRegisterForm}"> -->
+                        <div th:object="${reservationRegisterForm}"> <!--37-7でformをdivに置き換え-->
                             <input type="hidden" th:field="*{houseId}">
                             <input type="hidden" th:field="*{userId}">
                             <input type="hidden" th:field="*{checkinDate}">
@@ -91,8 +92,11 @@
                             <div class="d-flex justify-content-center">
                                 <button type="submit"
                                     class="btn text-white shadow-sm w-100 moattravel-btn">確定する</button>
+                                <button id="paymentButton"
+                                    class="btn text-white shadow-sm w-100 moattravel-btn">決済する</button> <!--37-7で追加-->
                             </div>
-                        </form>
+                        <!-- </form> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,6 +107,14 @@
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
+    <script src="https://js.stripe.com/v3"></script>  <!--37-7で追加-->
+
+
+    <script th:inline="javascript">
+        const sessionId = /*[[${sessionId}]]*/"sessionId";                
+    </script>
+    <script th:src="@{/js/stripe.js}"></script>  <!--ここまで37-7で追加-->
+
 </body>
 
 </html>

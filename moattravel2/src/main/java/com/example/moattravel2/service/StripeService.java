@@ -33,7 +33,7 @@ public class StripeService {
 
     public String createStripeSession(String houseName, ReservationRegisterForm reservationRegisterForm,
             HttpServletRequest httpServletRequest) {
-        Stripe.apiKey = "sk_test_51Sq26A6fHhDNGpxcbsutb62kHh89CBEobk8bf9oHH7Qh5nnM9uceQMKx7LSaUEZX3lEnVI3qbvkl73kljtC6ORpg00b6B8ezrz";
+        Stripe.apiKey = "シークレットコードキー";
         String requestUrl = new String(httpServletRequest.getRequestURL());
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)

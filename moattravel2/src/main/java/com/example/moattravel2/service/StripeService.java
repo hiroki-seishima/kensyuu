@@ -15,7 +15,7 @@ import com.stripe.model.StripeObject; //38-4で追加
 
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import com.stripe.param.checkout.SessionRetrieveParams;  //38-4で追加
+import com.stripe.param.checkout.SessionRetrieveParams; //38-4で追加
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -33,7 +33,7 @@ public class StripeService {
 
     public String createStripeSession(String houseName, ReservationRegisterForm reservationRegisterForm,
             HttpServletRequest httpServletRequest) {
-        Stripe.apiKey = "シークレットコードキー";
+        Stripe.apiKey = stripeApiKey;
         String requestUrl = new String(httpServletRequest.getRequestURL());
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
@@ -73,7 +73,7 @@ public class StripeService {
         }
     }
 
-    // セッションから予約情報を取得し、ReservationServiceクラスを介してデータベースに登録する　　38-4で追加
+    // セッションから予約情報を取得し、ReservationServiceクラスを介してデータベースに登録する 38-4で追加
     public void processSessionCompleted(Event event) {
         Optional<StripeObject> optionalStripeObject = event.getDataObjectDeserializer().getObject();
         optionalStripeObject.ifPresent(stripeObject -> {

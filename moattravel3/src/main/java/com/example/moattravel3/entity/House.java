@@ -1,4 +1,4 @@
-package com.example.moattravel3.entity;
+package com.example.moattravel3.entity;  //houseテーブルを紐づけるためのエンティティ
 
 import java.sql.Timestamp;
 import jakarta.persistence.Column;

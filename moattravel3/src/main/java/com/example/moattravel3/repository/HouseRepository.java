@@ -1,4 +1,4 @@
-package com.example.moattravel3.repository;
+package com.example.moattravel3.repository;  //houseテーブルとやりとりをするリポジトリ
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

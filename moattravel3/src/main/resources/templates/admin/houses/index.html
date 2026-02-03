@@ -9,7 +9,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-        
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,7 +50,12 @@
                                             class="btn text-white shadow-sm moattravel-btn">検索</button>
                                     </div>
                                 </form>
-                                <a th:href="@{/admin/houses/register}" class="btn text-white shadow-sm mb-3 moattravel-btn">登録</a>
+                                <a th:href="@{/admin/houses/register}"
+                                    class="btn text-white shadow-sm mb-3 moattravel-btn">登録</a>
+                            </div>
+
+                            <div th:if="${successMessage}" class="alert alert-info">
+                                <span th:text="${successMessage}"></span>
                             </div>
 
                             <table class="table">
@@ -72,6 +77,28 @@
                                         <td th:text="${house.getAddress()}"></td>
                                         <td th:text="${house.getPhoneNumber()}"></td>
                                         <td><a th:href="@{/admin/houses/__${house.getId()}__}">詳細</a></td>
+                                        <td><a href="#" class="moattravel-link-danger" data-bs-toggle="modal"
+                                                th:data-bs-target="${'#deleteHouseModal' + house.getId()}">削除</a></td>
+                                        <!-- 削除用モーダル -->
+                                        <div class="modalfade" th:id="${'deleteHouseModal' + house.getId()}" tabindex="-1"
+                                            th:aria-labelledby="${'deleteHouseModalLabel' + house.getId()}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" th:id="${'deleteHouseModalLabel' +house.getId()}" th:text="${house.getName() + 'を削除してもよろしいですか？'}"></h5>
+
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="閉じる"></button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form method="post" th:action="@{/admin/houses/__${house.getId()}__/delete}">
+                                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />  <!--追加-->
+                                                            <button type="submit" class="btn moattravel-btn-danger text-white shadow-sm">削除</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 </tbody>
                             </table>
@@ -82,14 +109,18 @@
                                         <li class="page-item">
                                             <span th:if="${housePage.isFirst()}" class="page-link disabled">前
                                             </span>
-                                            <a th:unless="${housePage.isFirst()}" th:href="@{/admin/houses(page = ${housePage.getNumber() - 1}, keyword = ${keyword})}" class="page-linkmoattravel-page-link">前</a>
+                                            <a th:unless="${housePage.isFirst()}"
+                                                th:href="@{/admin/houses(page = ${housePage.getNumber() - 1}, keyword = ${keyword})}"
+                                                class="page-link moattravel-page-link">前</a>
                                         </li>
                                         <li th:each="i : ${#numbers.sequence(0, housePage.getTotalPages() - 1)}"
                                             class="page-item">
                                             <span th:if="${i ==housePage.getNumber()}"
                                                 class="page-link active moattravel-active" th:text="${i + 1}"></span>
-                                            <a th:unless="${i ==housePage.getNumber()}" th:href="@{/admin/houses(page = ${i}, keyword =${keyword})}" class="page-link moattravel-page-link" th:text="${i +1}"></a>
-
+                                            <a th:unless="${i ==housePage.getNumber()}"
+                                                th:href="@{/admin/houses(page = ${i}, keyword =${keyword})}"
+                                                class="page-link moattravel-page-link" th:text="${i +1}"></a>
+                                        </li>
                                         <li class="page-item">
                                             <span th:if="${housePage.isLast()}" class="page-link disabled">次
                                             </span>
@@ -103,7 +134,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </main>
 
         <!-- フッター -->
@@ -119,7 +149,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script> -->
-        <div th:replace="~{fragment :: scripts}"></div>
+    <div th:replace="~{fragment :: scripts}"></div>
 </body>
 
 </html>

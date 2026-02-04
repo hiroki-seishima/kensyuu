@@ -39,8 +39,7 @@ bg-danger">必須</span>
                                     </label>
                                 </div>
                                 <div class="col-md-7">
-                                    <div th:if="$
-{#fields.hasErrors('name')}" class="text-danger small mb-2" th:errors="*{name}"></div>
+                                    <div th:if="${#fields.hasErrors('name')}" class="text-danger small mb-2" th:errors="*{name}"></div>
                                     <input type="text" class="form-control" th:field="*{name}" autocomplete="name"
                                         autofocus placeholder="MOAT 太郎">
                                 </div>

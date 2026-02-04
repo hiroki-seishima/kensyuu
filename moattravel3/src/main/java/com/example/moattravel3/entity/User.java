@@ -40,8 +40,8 @@ public class User {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "role_id)")
-    private Role roles;
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @Column(name= "enabled")
     private Boolean enabled;

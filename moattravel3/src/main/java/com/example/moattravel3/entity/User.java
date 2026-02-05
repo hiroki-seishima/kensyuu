@@ -25,10 +25,13 @@ public class User {
     private String name;
 
     @Column(name = "furigana")
-    private String frigana;
+    private String furigana;
 
     @Column(name = "postal_code")
     private String postalCode;
+
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "phone_number")
     private String phoneNumber;

@@ -1,4 +1,4 @@
-package com.example.moattravel3.repository;
+package com.example.moattravel3.repository;   //userテーブルとやりとりをするリポジトリ
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

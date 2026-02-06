@@ -36,7 +36,7 @@ public class UserService {
         user.setEmail(signupForm.getEmail());
         user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
         user.setRole(role);
-        user.setEnabled(true);
+        user.setEnabled(false);
 
         return userRepository.save(user);  //保存して生成したuser情報を返す。なお、save()はspring Data JPAが自動実装
 
@@ -50,5 +50,13 @@ public class UserService {
     public boolean isSamePassword(String password,String passwordConfirmation) {//パスワードとパスワード（確認用）の入力値が一致するかどうかをチェックする
         return password.equals(passwordConfirmation);  //両者イコールであれば返す
     }
+    
+    //ユーザーを有効にする
+    @Transactional
+    public void enableUser(User user){
+        user.setEnabled(true);  //enableを有効にする
+        userRepository.save(user);  //有効にした情報をDBへ保存
+    }
+
 }
 

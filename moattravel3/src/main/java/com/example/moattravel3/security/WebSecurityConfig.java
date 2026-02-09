@@ -17,7 +17,7 @@ public class WebSecurityConfig {
     @Bean  //BeanはDIコンテナに登録されたインスタンスのこと
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests((requests) -> requests
-        .requestMatchers("css/**","/images/**","/js/**","/storage/**","/","/signup/**").permitAll()  //すべてのユーザーーにアクセスを許可するURL
+        .requestMatchers("css/**","/images/**","/js/**","/storage/**","/","/signup/**","/houses/").permitAll()  //すべてのユーザーーにアクセスを許可するURL
         .requestMatchers("/admin/**" ).hasRole("ADMIN") //管理者にのみアクセスを許可するURL
         .anyRequest().authenticated() //上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
         )

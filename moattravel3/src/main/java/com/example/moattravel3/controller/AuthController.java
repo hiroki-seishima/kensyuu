@@ -6,10 +6,10 @@ import org.springframework.validation.BindingResult; //バリテーションの�
 import org.springframework.validation.FieldError;  //フィールドのバリテーションエラーを表す
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;  //GetMappingのAPI
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ModelAttribute;  //フォームデータとJavaオブジェクトを自動バインド
 import org.springframework.web.bind.annotation.PostMapping; //PostMappingのAPI
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;//パラメータの値を引数に割り当てる
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;  //リダイレクト時にデータを一時的に引き継ぐ
 
 import com.example.moattravel3.entity.User;
 import com.example.moattravel3.entity.VerificationToken;
@@ -18,7 +18,7 @@ import com.example.moattravel3.form.SignupForm;
 import com.example.moattravel3.service.UserService;
 import com.example.moattravel3.service.VerificationTokenService;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;  //コントローラーでHTTPリクエスト情報を取得
 
 @Controller
 public class AuthController {
@@ -70,18 +70,18 @@ public class AuthController {
     }
 
 
-    @GetMapping("/signup/verify")
+    @GetMapping("/signup/verify")  //メール認証のリンクを入った時に本登録を完了させる処理をし表示
     public String verify(@RequestParam (name = "token")String token,Model model){
-        VerificationTokenService verificationTokenService = verificationTokenService.getVerificationToken(token);
-        if (verificationToken !=null){
+        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+        if (verificationToken !=null){  //DBで登録したトークンを探してあれば有効
             User user = verificationToken.getUser();
-            userService.enableUser(user);
+            userService.enableUser(user); //有効としてDBに保存
             String successMessage = "会員登録が完了しました。";
             model.addAttribute("successMessage",successMessage);
         }else{
             String errorMessage = "トークンが無効です。";
-            model.addAttribute("errorMessage", errorMessage);
+            model.addAttribute("errorMessage", errorMessage);  //無効となりエラーメッセージを表示
         }
-        }
+        return "auth/verify";
     }
 }

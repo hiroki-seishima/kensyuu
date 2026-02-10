@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS reservations(
     house_id INT NOT NULL,
     user_id INT NOT NULL,
     checkin_date DATE NOT NULL,
-    checkout_data DATE NOT NULL,
+    checkout_date DATE NOT NULL,
     number_of_people INT NOT NULL,
     amount INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

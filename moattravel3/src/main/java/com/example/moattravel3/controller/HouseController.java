@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.moattravel3.entity.House;
+import com.example.moattravel3.form.ReservationInputForm;
 import com.example.moattravel3.repository.HouseRepository;
 
 @Controller
@@ -43,9 +44,9 @@ public class HouseController {
                 housePage = houseRepository.findByAddressLikeOrderByCreatedAtDesc("%" + area + "%", pageable);  //住所の部分一致検索をし、作成日時新しい順で降順
             }
         }else if (price !=null){  //金額がnullでないとき
-            housePage = houseRepository.findByPriceLessThanEqual(price,pageable); //ページング内で指定した金額以下のホテルを表示
+            housePage = houseRepository.findByPriceLessThanEqual(price,pageable); //ページング内で指定した金額以下のホテルを検索
             if(order !=null && order.equals("priceAsc")){  //さらにorderが送信されているかつ昇順であれば
-                housePage = houseRepository.findByPriceLessThanEqualOrderByPriceAsc(price,pageable);  //指定した金額以下で検索し、高い順番で降順（安い順で昇順）
+                housePage = houseRepository.findByPriceLessThanEqualOrderByPriceAsc(price,pageable);  //指定した金額以下で検索し、安い順で昇順
             }else{
                 housePage = houseRepository.findByPriceLessThanEqualOrderByCreatedAtDesc(price,pageable); //指定した料金以下を検索し作成日時の新しい順で降順
             }
@@ -67,8 +68,8 @@ public class HouseController {
         House house = houseRepository.getReferenceById(id);  //取得したidからDBにアクセスし、情報を取得
         
         model.addAttribute("house",house);  //houseの情報を画面に受け渡す
+        model.addAttribute("reservationInputForm",new ReservationInputForm());  //予約一覧データを画面に受け渡す
 
         return "houses/show";  //showを表示
     }
-
 }

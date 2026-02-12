@@ -17,7 +17,7 @@ public class WebSecurityConfig {
     @Bean  //BeanはDIコンテナに登録されたインスタンスのこと
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests((requests) -> requests
-        .requestMatchers("css/**","/images/**","/js/**","/storage/**","/","/signup/**","/houses/","/houses/{id}").permitAll()  //すべてのユーザーーにアクセスを許可するURL
+        .requestMatchers("css/**","/images/**","/js/**","/storage/**","/","/signup/**","/houses/","/houses/{id}","/stripe/webhook").permitAll()  //すべてのユーザーーにアクセスを許可するURL
         .requestMatchers("/admin/**" ).hasRole("ADMIN") //管理者にのみアクセスを許可するURL
         .anyRequest().authenticated() //上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
         )
@@ -25,17 +25,18 @@ public class WebSecurityConfig {
         .loginPage("/login")  //ログインページのURL
         .loginProcessingUrl("/login")  //ログインフォームの送信先URL
         .defaultSuccessUrl("/?loggedIn") //ログイン成功時のリダイレクト先URL
-        .failureUrl("/login?error")  //ログインしパイ時のリダイレクト先のURL
+        .failureUrl("/login?error")  //ログイン失敗時のリダイレクト先のURL
         .permitAll()
         )
 
         .logout((logout)  -> logout
             .logoutSuccessUrl("/?loggedOut")  //ログアウト時のリダイレクト先URL
             .permitAll()    
+        )
+        .csrf((csrf) -> csrf
+            .ignoringRequestMatchers("/stripe/webhook")
         );
-
-    return http.build();
-
+        return http.build();
     }
 
     @Bean

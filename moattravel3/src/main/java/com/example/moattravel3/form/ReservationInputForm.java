@@ -24,7 +24,6 @@ public class ReservationInputForm {
     //チェックアウト日を取得する
     public LocalDate getCheckoutDate(){
         String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split("から");  //フォームの文字列を取得
-
         return LocalDate.parse(checkinDateAndCheckoutDate[1]);  //parseで文字列を日付オブジェクトに変換してから返す（１）はチェックアウトの日（省略はチェックイン日）
     }
     

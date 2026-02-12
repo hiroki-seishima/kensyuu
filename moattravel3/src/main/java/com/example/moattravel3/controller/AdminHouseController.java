@@ -29,7 +29,7 @@ public class AdminHouseController {
     private final HouseRepository houseRepository;
     private final HouseService houseService;
 
-    public AdminHouseController(HouseRepository houseRepository , HouseService houseService){
+    public AdminHouseController(HouseRepository houseRepository , HouseService houseService){  //コンストラクタ
         this.houseRepository = houseRepository;
         this.houseService =houseService;
     }

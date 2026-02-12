@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PostMapping; 不要となったため削除 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.moattravel3.entity.House;
@@ -54,52 +54,50 @@ public class ReservationController {
     }
 
     
-    @GetMapping("/houses/{id}/reservations/input")
+    @GetMapping("/houses/{id}/reservations/input")  //予約入力
     public String input(@PathVariable(name="id")Integer id,@ModelAttribute @Validated ReservationInputForm reservationInputForm,BindingResult bindingResult,RedirectAttributes redirectAttributes,Model model){
 
-        House house = houseRepository.getReferenceById(id);
-        Integer numberOfPeople = reservationInputForm.getNumberOfPeople();
-        Integer capacity = house.getCapacity();
-        if (numberOfPeople != null){
-            if (!reservationService.isWithinCapacity(numberOfPeople,capacity)){
-                FieldError fieldError = new FieldError(bindingResult.getObjectName(),"numberOfPeople", "宿泊人数が定員を超えています。");
+        House house = houseRepository.getReferenceById(id);  //idをDBから取得
+        Integer numberOfPeople = reservationInputForm.getNumberOfPeople();  //予約人数を取得して代入
+        Integer capacity = house.getCapacity();  //定員を取得して代入
+        if (numberOfPeople != null){  //もし予約人数がnullでなければ
+            if (!reservationService.isWithinCapacity(numberOfPeople,capacity)){//もし定員を超えていれば
+                FieldError fieldError = new FieldError(bindingResult.getObjectName(),"numberOfPeople", "宿泊人数が定員を超えています。");  //宿泊人数が定員を超えているエラーを作成
                 bindingResult.addError(fieldError);
-
             }
         }
-        if(bindingResult.hasErrors()) {
-            model.addAttribute("house",house);
-            model.addAttribute("errorMessage", "予約内容に不備があります。");
+        if(bindingResult.hasErrors()) {  //もしエラーがあったら
+            model.addAttribute("house",house);  //houseの情報を画面に受け渡す
+            model.addAttribute("errorMessage", "予約内容に不備があります。"); //エラーメッセージを画面に渡す
 
-            return "houses/show";
+            return "houses/show";  //民宿詳細画面へ
         }
 
-        redirectAttributes.addFlashAttribute("reservationInputForm",reservationInputForm);
-
-        return "redirect:/houses/{id}/reservations/confirm";
+        redirectAttributes.addFlashAttribute("reservationInputForm",reservationInputForm);  //リダイレクト先の画面にreservationInputFormのデータを１回だけ渡す。※入力に失敗したらフォームデータが空になるためaddAttributeでなくaddFlashAttributeをつかう。
+        return "redirect:/houses/{id}/reservations/confirm";  //リダイレクトでconfirmに移動
     }
     @GetMapping("/houses/{id}/reservations/confirm")
-    public String confirm(@PathVariable(name = "id") Integer id,@ModelAttribute ReservationInputForm reservationInputForm,@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,Model model){
+    public String confirm(@PathVariable(name = "id") Integer id,@ModelAttribute ReservationInputForm reservationInputForm,@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,HttpServletRequest httpServletRequest,Model model){
         House house = houseRepository.getReferenceById(id);
         User user = userDetailsImpl.getUser();
 
         //チェックイン日とチェックアウト日を取得する
-        LocalDate checkinDate = reservationInputForm.getCheckinDate();
-        LocalDate checkoutDate = reservationInputForm.getCheckoutDate();
+        LocalDate checkinDate = reservationInputForm.getCheckinDate();  //checkinを取得
+        LocalDate checkoutDate = reservationInputForm.getCheckoutDate();  //checkoutを取得
     
 
         //宿泊料金を計算する
-        Integer price = house.getPrice();
-        Integer amount = reservationService.calculateAmount(checkinDate,checkoutDate,price);
+        Integer price = house.getPrice();  //houseエンティティから
+        Integer amount = reservationService.calculateAmount(checkinDate,checkoutDate,price);  //チェックイン、チェックアウトと宿泊料金から金額を算出したものを呼び出す
 
-        ReservationRegisterForm reservationRegisterForm = new ReservationRegisterForm(house.getId(),user.getId(),checkinDate.toString(),checkoutDate.toString(),reservationInputForm.getNumberOfPeople(),amount);
+        ReservationRegisterForm reservationRegisterForm = new ReservationRegisterForm(house.getId(),user.getId(),checkinDate.toString(),checkoutDate.toString(),reservationInputForm.getNumberOfPeople(),amount);  //入力した情報をフォームから取得
 
-        String sessionId = stripeService.createStripeSession(house.getName(),reservationRegisterForm,httpServletRequest);
-        model.addAttribute("house",house);
-        model.addAttribute("reservationRegisterForm",reservationRegisterForm);
-        model.addAttribute("sessionId", sessionId);
+        String sessionId = stripeService.createStripeSession(house.getName(),reservationRegisterForm,httpServletRequest);  //stripe決済画面へのリダイレクト用のセッションIDを生成
+        model.addAttribute("house",house);  //houseの情報を画面に受け渡す
+        model.addAttribute("reservationRegisterForm",reservationRegisterForm);  //reservationRegisterFormの情報を画面に渡す
+        model.addAttribute("sessionId", sessionId); //sessionidを画面に渡す
         
-        return "reservations/confirm";
+        return "reservations/confirm";  //confirmを表示
     }
 
     // @PostMapping("/houses/{id}/reservations/create")

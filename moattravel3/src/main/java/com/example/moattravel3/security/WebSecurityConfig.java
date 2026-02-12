@@ -34,7 +34,7 @@ public class WebSecurityConfig {
             .permitAll()    
         )
         .csrf((csrf) -> csrf
-            .ignoringRequestMatchers("/stripe/webhook")
+            .ignoringRequestMatchers("/stripe/webhook") //Stripe WebhookのみCSRF無効 → 決済通知正常受信
         );
         return http.build();
     }
@@ -44,5 +44,4 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();  //BCryptはパスワード用のハッシュ値を生成してくれる協力なハッシュアルゴリズム
 
     }
-    
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.moatmusic.entity.StringInstrument;
+import com.example.moatmusic.form.StringInstrumentEditForm;
 import com.example.moatmusic.form.StringInstrumentRegisterForm;
 import com.example.moatmusic.repository.StringInstrumentRepository;
 import com.example.moatmusic.service.StringInstrumentService;
@@ -68,13 +69,13 @@ public class AdminStringInstrumentController {
         return "admin/stringInstrument/show"; // 楽器詳細ページへ
     }
 
-    @GetMapping("/register")  //登録ページの情報を取得
+    @GetMapping("/register") // 登録ページの情報を取得
     public String register(Model model) {
         model.addAttribute("stringInstrumentRegisterForm", new StringInstrumentRegisterForm());
         return "admin/stringInstrument/register";
     }
 
-    @PostMapping("/create")  //新規登録した楽器のページでエラーになれば登録ページへ、成功すればリダイレクトで成功メッセ＋楽器一覧ページへ
+    @PostMapping("/create") // 新規登録した楽器のページでエラーになれば登録ページへ、成功すればリダイレクトで成功メッセ＋楽器一覧ページへ
     public String create(@ModelAttribute @Validated StringInstrumentRegisterForm stringInstrumentRegisterForm,
             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -86,5 +87,20 @@ public class AdminStringInstrumentController {
                 "楽器を登録しました。");
 
         return "redirect:/admin/stringInstrument";
+    }
+
+    @GetMapping("/{id}/edit")  //任意のIDから情報を取得したものを編集して保存するメソッド
+    public String edit(@PathVariable(name = "id") Integer id, Model model) {
+        StringInstrument stringInstrument = stringInstrumentRepository.getReferenceById(id);
+        String imageName = stringInstrument.getImageName();
+        StringInstrumentEditForm stringInstrumentEditForm = new StringInstrumentEditForm(stringInstrument.getId(),
+                stringInstrument.getName(), null,
+                stringInstrument.getDescription(), stringInstrument.getPrice(), stringInstrument.getCapacity(),
+                stringInstrument.getHandedness());
+
+        model.addAttribute("imageName", imageName);
+        model.addAttribute("stringInstrumentEditForm", stringInstrumentEditForm);
+
+        return "admin/stringInstrument/edit";  //編集ページへ
     }
 }

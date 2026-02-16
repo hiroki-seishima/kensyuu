@@ -1,0 +1,119 @@
+<!DOCTYPE html> <!--楽器一覧のページ-->
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <title>楽器一覧</title>
+</head>
+
+<body>
+    <div class="moatmusic-wrapper">
+        <!-- ヘッダー -->
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm moatmusic-navbar">
+            <div class="container moatmusic-container">
+                <a class="navbar-brand" th:href="@{/}">
+                    <img class="moatmusic-logo me-1" th:src="@{/images/logo.png}" alt="moat music">
+                </a>
+            </div>
+        </nav>
+
+        <main>
+            <div class="container pt-4 pb-5 moatmusic-container">
+                <div class="row justify-content-center">
+                    <div class="col-xxl-9 col-xl-10 col-lg-11">
+
+                        <h1 class="mb-4 text-center">楽器一覧</h1>
+
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <form method="get" th:action="@{/admin/stringInstrument}" class="mb-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="keyword" th:value="${keyword}"
+                                            placeholder="楽器名">
+                                        <button type="submit" class="btn text-white shadow-sm moatmusic-btn">検索</button>
+                                    </div>
+                                </form>
+                                <a href="#" class="btn text-white shadow-sm mb-3 moatmusic-btn">登録</a> <!--登録ボタン表示-->
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th> <!--DBから取得-->
+                                        <th scope="col">楽器名</th>
+                                        <th scope="col">利き手</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="stringInstrument : ${stringInstrumentPage}"> <!--取得したものを文字で表示-->
+                                        <td th:text="${stringInstrument.getId()}"></td>  <!--コントローラーのaddAttributeに記載したものと一緒-->
+                                        <td th:text="${stringInstrument.getName()}"></td>
+                                        <td th:text="${stringInstrument.getHandedness()}"></td>
+
+                                        <td><a href="#">詳細</a></td> <!--詳細のリンク先は未指定-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- ページネーション -->
+                            <div th:if="${stringInstrumentPage.getTotalPages()> 1}"
+                                class="d-flex justify-content-center">
+                                <nav aria-label="楽器一覧ページ">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <span th:if="${stringInstrumentPage.isFirst()}" class="page-link disabled">前
+                                            </span>
+                                            <a th:unless="${stringInstrumentPage.isFirst()}"
+                                                th:href="@{/admin/stringInstrument(page = ${stringInstrumentPage.getNumber() - 1}, keyword = ${keyword})}"
+                                                class="page-link moatmusic-page-link">前</a>
+                                        </li>
+                                        <li th:each="i : ${#numbers.sequence(0, stringInstrumentPage.getTotalPages() - 1)}"
+                                            class="page-item">
+                                            <span th:if="${i == stringInstrumentPage.getNumber()}"
+                                                class="page-link active moattravel-active" th:text="${i + 1}"></span>
+                                            <a th:unless="${i == stringInstrumentPage.getNumber()}"
+                                                th:href="@{/admin/stringInstrument(page = ${i}, keyword = ${keyword})}"
+                                                class="page-link moatmusic-page-link" th:text="${i + 1}"></a>
+                                        </li>
+                                        <li class="page-item">
+                                            <span th:if="${stringInstrumentPage.isLast()}" class="page-link disabled">次
+                                            </span>
+                                            <a th:unless="${stringInstrumentPage.isLast()}"
+                                                th:href="@{/admin/stringInstrument(page = ${stringInstrumentPage.getNumber() + 1}, keyword = ${keyword})}"
+                                                class="page-link moatmusic-page-link">次</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+        </main>
+
+        <!-- フッター -->
+        <footer>
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <p class="text-center text-muted small mb-0">&copy; moat music All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>

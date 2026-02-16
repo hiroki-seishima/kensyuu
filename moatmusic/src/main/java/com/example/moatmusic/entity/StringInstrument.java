@@ -1,4 +1,4 @@
-package com.example.moatmusic.entity;
+package com.example.moatmusic.entity;  //StringInstrumentテーブルと紐付けをするエンティティ
 
 import java.sql.Timestamp;
 
@@ -34,6 +34,9 @@ public class StringInstrument {
 
     @Column(name = "capacity")
     private Integer capacity;  //最大貸出数
+
+    @Column(name = "handedness")
+    private String handedness;  //利き手
 
     @Column(name = "created_at", insertable = false, updatable = false)  //作成日時
     private Timestamp createdAt;

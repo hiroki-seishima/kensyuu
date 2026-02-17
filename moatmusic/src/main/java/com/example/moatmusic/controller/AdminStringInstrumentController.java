@@ -89,7 +89,7 @@ public class AdminStringInstrumentController {
         return "redirect:/admin/stringInstrument";
     }
 
-    @GetMapping("/{id}/edit")  //任意のIDから情報を取得したものを編集して保存するメソッド
+    @GetMapping("/{id}/edit") // 新規登録メソッド
     public String edit(@PathVariable(name = "id") Integer id, Model model) {
         StringInstrument stringInstrument = stringInstrumentRepository.getReferenceById(id);
         String imageName = stringInstrument.getImageName();
@@ -101,6 +101,20 @@ public class AdminStringInstrumentController {
         model.addAttribute("imageName", imageName);
         model.addAttribute("stringInstrumentEditForm", stringInstrumentEditForm);
 
-        return "admin/stringInstrument/edit";  //編集ページへ
+        return "admin/stringInstrument/edit"; // 編集ページへ
+    }
+
+    @PostMapping("/{id}/update")  //更新メソッド
+    public String update(@ModelAttribute @Validated StringInstrumentEditForm stringInstrumentEditForm,
+            BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "admin/stringInstrument/edit";  //エラーが発生すれば編集ページへ
+        }
+
+        stringInstrumentService.update(stringInstrumentEditForm);
+        redirectAttributes.addFlashAttribute("successMessage",  //編集前の情報が消えないようにflashをつけている
+                "楽器情報を編集しました。");
+
+        return "redirect:/admin/stringInstrument";  //楽器一覧にリダイレクト
     }
 }

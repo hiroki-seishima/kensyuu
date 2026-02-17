@@ -77,6 +77,38 @@
                                         <td><a
                                                 th:href="@{/admin/stringInstrument/__${stringInstrument.getId()}__}">詳細</a>
                                         </td> <!--詳細のリンク先はadmin/stringInstrument/(任意のID）-->
+
+                                        <td><a href="#" class="moatmusic-link-danger" data-bs-toggle="modal"
+                                                th:data-bs-target="${'#deleteStringInstrumentModal' + stringInstrument.getId()}">削除</a>
+                                        </td>
+
+                                        <!-- 削除用モーダル -->
+                                        <div class="modal-fade"
+                                            th:id="${'deleteStringInstrumentModal' + stringInstrument.getId()}"
+                                            tabindex="-1"
+                                            th:aria-labelledby="${'deleteStringInstrumentModalLabel' + stringInstrument.getId()}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            th:id="${'deleteStringInstrumentModalLabel' + stringInstrument.getId()}"
+                                                            th:text="${stringInstrument.getName() + 'を削除してもよろしいですか？'}">
+                                                        </h5>
+
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="閉じる"></button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form method="post"
+                                                            th:action="@{/admin/stringInstrument/__${stringInstrument.getId()}__/delete}">
+
+                                                            <button type="submit"
+                                                                class="btn moatmusic-btn-danger text-white shadow-sm">削除</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 </tbody>
                             </table>
@@ -128,7 +160,8 @@
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-        </script>
+    </script>
+    
 </body>
 
 </html>

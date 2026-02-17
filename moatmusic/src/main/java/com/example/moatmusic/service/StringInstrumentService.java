@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.moatmusic.entity.StringInstrument;
+import com.example.moatmusic.form.StringInstrumentEditForm;
 import com.example.moatmusic.form.StringInstrumentRegisterForm;
 import com.example.moatmusic.repository.StringInstrumentRepository;
 
@@ -23,11 +24,11 @@ public class StringInstrumentService {
     }
 
     @Transactional
-    public void create(StringInstrumentRegisterForm stringInstrumentRegisterForm) {  //書新規登録メソッド
-        StringInstrument stringInstrument = new StringInstrument(); //楽器エンティティ生成
-        MultipartFile imageFile = stringInstrumentRegisterForm.getImageFile(); //登録した楽器の画像ファイル
+    public void create(StringInstrumentRegisterForm stringInstrumentRegisterForm) { // 書新規登録メソッド
+        StringInstrument stringInstrument = new StringInstrument(); // 楽器エンティティ生成
+        MultipartFile imageFile = stringInstrumentRegisterForm.getImageFile(); // 登録した楽器の画像ファイル
 
-        if (!imageFile.isEmpty()) {//画像ファイルをストレージに保存
+        if (!imageFile.isEmpty()) {// 画像ファイルをストレージに保存
             String imageName = imageFile.getOriginalFilename();
             String hashedImageName = generateNewFileName(imageName);
             Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
@@ -42,6 +43,29 @@ public class StringInstrumentService {
         stringInstrument.setHandedness(stringInstrumentRegisterForm.getHandedness());
 
         stringInstrumentRepository.save(stringInstrument);// DBに保存
+    }
+
+    @Transactional
+    public void update(StringInstrumentEditForm stringInstrumentEditForm) {  //楽器詳細編集メソッド
+        StringInstrument stringInstrument = stringInstrumentRepository
+                .getReferenceById(stringInstrumentEditForm.getId());
+        MultipartFile imageFile = stringInstrumentEditForm.getImageFile();
+
+        if (!imageFile.isEmpty()) {
+            String imageName = imageFile.getOriginalFilename();
+            String hashedImageName = generateNewFileName(imageName);
+            Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+            copyImageFile(imageFile, filePath);
+            stringInstrument.setImageName(hashedImageName);
+        }
+
+        stringInstrument.setName(stringInstrumentEditForm.getName());
+        stringInstrument.setDescription(stringInstrumentEditForm.getDescription());
+        stringInstrument.setPrice(stringInstrumentEditForm.getPrice());
+        stringInstrument.setCapacity(stringInstrumentEditForm.getCapacity());
+        stringInstrument.setHandedness(stringInstrumentEditForm.getHandedness());
+
+        stringInstrumentRepository.save(stringInstrument);
     }
 
     // UUIDを使って生成したファイル名を返す

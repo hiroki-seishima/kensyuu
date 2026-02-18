@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  <!--トップページ-->
 <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    
+
     <div th:replace="~{fragment :: meta}"></div>
 
     <div th:replace="~{fragment :: styles}"></div>
@@ -26,6 +26,55 @@
                 </div>
                 <div th:if="${successMessage}" class="alert alert-info">
                     <span th:text="${successMessage}"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <form method="get" th:action="@{/stringInstrument}" class="mb-5 moatmusic-search-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="nameKeyword" th:value="${nameKeyword}" placeholder="楽器名">
+                            <button type="submit" class="btn text-white shadow-sm moatmusic-btn">検索</button>
+                        </div>
+                    </form>
+                </div>
+
+                <h2 class="text-center mb-3">新着</h2>
+                <div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">
+                    <div class="col" th:each="newStringInstrument : ${newStringInstrument}">
+                        <a th:href="@{/stringInstrument/__${newStringInstrument.getId()}__}" class="link-dark moatmusic-card-link">
+                            <div class="card h-100">
+                                <img th:if="${newStringInstrument.getImageName()}" th:src="@{/storage/__${newStringInstrument.getImageName()}__}" class="card-img-top moatmusic-vertical-card-image" alt="楽器画像">
+                                <img th:unless="${newStringInstrument.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top moatmusic-vertical-card-image" alt="NO IMAGE">
+                                <div class="card-body">
+                                    <h3 class="card-title" th:text="${newStringInstrument.getName()}"></h3>
+                                    <p class="card-text mb-1">
+                                        <small class="text-muted" th:text="${newStringInstrument.getHandedness()}"></small>
+                                    </p>
+                                    <p class="card-text">
+                                        <span th:text="${#numbers.formatInteger(newStringInstrument.getPrice(), 1, 'COMMA') + '円 / 時間'}"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-xl-5 col-lg-6 col-md-8">
+
+                        <h2 class="text-center mb-3">利き手から探す
+                        </h2>
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>利き手</th>
+                                    <td>
+                                        <a th:href="@{/stringInstrument?handedness=右}">右</a>
+                                        <a th:href="@{/stringInstrument?handedness=左}">左</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>

@@ -27,7 +27,8 @@
                     <div class="col-xl-3 col-lg-4 col-md-12">
                         <form method="get" th:action="@{/stringInstrument}" class="w-100 mb-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="nameKeyword" th:value="${nameKeyword}" placeholder="楽器名">
+                                <input type="text" class="form-control" name="nameKeyword" th:value="${nameKeyword}"
+                                    placeholder="楽器名">
                                 <button type="submit" class="btn text-white shadow-sm moatmusic-btn">検索</button>
                             </div>
                         </form>
@@ -81,17 +82,34 @@
 
                     <div class="col">
                         <div class="d-flex justify-content-between flex-wrap">
-                            <p th:if="${stringInstrumentPage.getTotalPages() > 1}" class="fs-5 mb-3" th:text="${'検索結果：' + stringInstrumentPage.getTotalElements() + '件' + '（' + (stringInstrumentPage.getNumber() + 1) + ' / ' + stringInstrumentPage.getTotalPages() + ' ページ）'}"></p>
-                            <p th:unless="${stringInstrumentPage.getTotalPages() > 1}" class="fs-5 mb-3" th:text="${'検索結果：' + stringInstrumentPage.getTotalElements() + '件'}"></p>
+                            <p th:if="${stringInstrumentPage.getTotalPages() > 1}" class="fs-5 mb-3"
+                                th:text="${'検索結果：' + stringInstrumentPage.getTotalElements() + '件' + '（' + (stringInstrumentPage.getNumber() + 1) + ' / ' + stringInstrumentPage.getTotalPages() + ' ページ）'}">
+                            </p>
+                            <p th:unless="${stringInstrumentPage.getTotalPages() > 1}" class="fs-5 mb-3"
+                                th:text="${'検索結果：' + stringInstrumentPage.getTotalElements() + '件'}"></p>
+                            <form method="get" th:action="@{/stringInstrument}" class="mb-3 moatmusic-sort-box">
+                                <input th:if="${nameKeyword}" type="hidden" name="nameKeyword" th:value="${nameKeyword}">
+                                <input th:if="${handedness}" type="hidden" name="handedness" th:value="${handedness}">
+                                <input th:if="${price}" type="hidden" name="price" th:value="${price}">
+                                <select class="form-select form-select-sm" name="order" onChange="this.form.submit();">
+                                    <option value="createdAtDesc" th:selected="${order == 'createdAtDesc' || order == null}">新着順</option>
+                                    <option value="priceAsc" th:selected="${order == 'priceAsc'}">レンタル料金が安い順</option>
+                                </select>
+                            </form>
                         </div>
 
                         <div class="mb-3" th:each="stringInstrument : ${stringInstrumentPage}">
-                            <a th:href="@{/stringInstrument/__${stringInstrument.getId()}__}" class="link-dark moatmusic-card-link">
+                            <a th:href="@{/stringInstrument/__${stringInstrument.getId()}__}"
+                                class="link-dark moatmusic-card-link">
                                 <div class="card h-100">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img th:if="${stringInstrument.getImageName()}" th:src="@{/storage/__${stringInstrument.getImageName()}__}" class="card-img-top moatmusic-horizontal-card-image" alt="楽器画像">
-                                            <img th:unless="${stringInstrument.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top moatmusic-horizontal-card-image" alt="NO IMAGE">
+                                            <img th:if="${stringInstrument.getImageName()}"
+                                                th:src="@{/storage/__${stringInstrument.getImageName()}__}"
+                                                class="card-img-top moatmusic-horizontal-card-image" alt="楽器画像">
+                                            <img th:unless="${stringInstrument.getImageName()}"
+                                                th:src="@{/images/noImage.png}"
+                                                class="card-img-top moatmusic-horizontal-card-image" alt="NO IMAGE">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
@@ -103,9 +121,14 @@
                                                 <p class="card-text mb-2">
                                                     <span th:text="${stringInstrument.getDescription()}"></span>
                                                 </p>
+                                                <p class="card-text mb-2">
+                                                    <small class="text-muted"
+                                                        th:text="${stringInstrument.getHandedness()}"></small>
+                                                </p>
 
                                                 <p class="card-text">
-                                                    <span th:text="${#numbers.formatInteger(stringInstrument.getPrice(), 1, 'COMMA') + '円 /時間'}"></span>
+                                                    <span
+                                                        th:text="${#numbers.formatInteger(stringInstrument.getPrice(), 1, 'COMMA') + '円 /時間'}"></span>
                                                 </p>
                                             </div>
                                         </div>
@@ -119,16 +142,20 @@
                             <nav aria-label="楽器一覧ページ">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <span th:if="${stringInstrumentPage.isFirst()}" class="page-link disabled">前</span>
-                                        <a th:unless="${stringInstrumentPage.isFirst()}" th:href="@{/stringInstrument(page = ${stringInstrumentPage.getNumber() - 1}, nameKeyword = ${nameKeyword}, handedness = ${handedness},price = ${price})}" class="page-link moatmusic-page-link">前</a>
+                                        <span th:if="${stringInstrumentPage.isFirst()}"
+                                            class="page-link disabled">前</span>
+                                        <a th:unless="${stringInstrumentPage.isFirst()}" th:href="@{/stringInstrument(page = ${stringInstrumentPage.getNumber() - 1}, nameKeyword = ${nameKeyword}, handedness = ${handedness},price = ${price}, order = ${order})}" class="page-link moatmusic-page-link">前</a>
                                     </li>
-                                    <li th:each="i : ${#numbers.sequence(0, stringInstrumentPage.getTotalPages() - 1)}" class="page-item">
-                                        <span th:if="${i == stringInstrumentPage.getNumber()}" class="page-link active moatmusic-active" th:text="${i + 1}"></span>
-                                        <a th:unless="${i == stringInstrumentPage.getNumber()}" th:href="@{/stringInstrument(page = ${i}, nameKeyword = ${nameKeyword}, handedness = ${handedness}, price = ${price})}" class="page-link moatmusic-page-link" th:text="${i + 1}"></a>
+                                    <li th:each="i : ${#numbers.sequence(0, stringInstrumentPage.getTotalPages() - 1)}"
+                                        class="page-item">
+                                        <span th:if="${i == stringInstrumentPage.getNumber()}"
+                                            class="page-link active moatmusic-active" th:text="${i + 1}"></span>
+                                        <a th:unless="${i == stringInstrumentPage.getNumber()}" th:href="@{/stringInstrument(page = ${i}, nameKeyword = ${nameKeyword}, area = ${handedness}, price = ${price}, order = ${order})}" class="page-link moatmusic-page-link" th:text="${i + 1}"></a>
                                     </li>
                                     <li class="page-item">
-                                        <span th:if="${stringInstrumentPage.isLast()}" class="page-link disabled">次</span>
-                                        <a th:unless="${stringInstrumentPage.isLast()}" th:href="@{/stringInstrument(page = ${stringInstrumentPage.getNumber() + 1}, nameKeyword = ${nameKeyword}, handedness = ${handedness}, price = ${price})}" class="page-link moatmusic-page-link">次</a>
+                                        <span th:if="${stringInstrumentPage.isLast()}"
+                                            class="page-link disabled">次</span>
+                                        <a th:unless="${stringInstrumentPage.isLast()}" th:href="@{/stringInstrument(page = ${stringInstrumentPage.getNumber()+ 1}, nameKeyword = ${nameKeyword}, area = ${handedness}, price = ${price}, order = ${order})}" class="page-link moattravel-page-link">次</a>
                                     </li>
                                 </ul>
                             </nav>

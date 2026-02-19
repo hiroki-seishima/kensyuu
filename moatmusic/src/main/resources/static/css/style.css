@@ -105,6 +105,10 @@ footer {
     object-fit: cover;
 }
 
+.moatmusic-sort-box {
+    width: 150px;
+}
+
 @media screen and (min-width: 1400px) {
     .moatmusic-container {
         max-width: 1200px;

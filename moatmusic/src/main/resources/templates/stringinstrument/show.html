@@ -1,10 +1,13 @@
-<!DOCTYPE html>  <!--楽器詳細ページ-->
+<!DOCTYPE html> <!--楽器詳細ページ-->
 <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <div th:replace="~{fragment :: meta}"></div>
 
     <div th:replace="~{fragment :: styles}"></div>
+
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <title>楽器詳細</title>
 </head>
@@ -33,7 +36,8 @@
                         <div class="mb-4">
                             <img th:if="${stringInstrument.getImageName()}"
                                 th:src="@{/storage/__${stringInstrument.getImageName()}__}" class="w-100" alt="楽器画像">
-                            <img th:unless="${stringInstrument.getImageName()}" th:src="@{/images/noImage.png}" class="w-100" alt="NO IMAGE">
+                            <img th:unless="${stringInstrument.getImageName()}" th:src="@{/images/noImage.png}"
+                                class="w-100" alt="NO IMAGE">
                         </div>
 
                         <div class="container">
@@ -66,7 +70,8 @@
                                         </div>
 
                                         <div class="col">
-                                            <span th:text="${#numbers.formatInteger(stringInstrument.getPrice(), 1, 'COMMA') + '円'}"></span>
+                                            <span
+                                                th:text="${#numbers.formatInteger(stringInstrument.getPrice(), 1, 'COMMA') + '円'}"></span>
                                         </div>
                                     </div>
 
@@ -100,11 +105,43 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div sec:authorize="isAuthenticated()" class="col-lg-4 px-0 ps-lg-4 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form method="get"
+                                                th:action="@{/stringInstrument/__${stringInstrument.getId()}__/reservations/input}"
+                                                th:object="${reservationInputForm}">
+                                                <div class="form-group mb-2">
+                                                    <label for="fromRentalStartTimeDateToRentalEndTimeDate" class="col-form-label text-md-left fw-bold">レンタル開始・終了日時</label>
+                                                    <div th:if="${#fields.hasErrors('fromRentalStartTimeDateToRentalEndTimeDate')}"
+                                                        class="text-danger small mb-2"
+                                                        th:errors="*{fromRentalStartTimeDateToRentalEndTimeDate}"></div>
+                                                    <input type="text" class="form-control"
+                                                        th:field="*{fromRentalStartTimeDateToRentalEndTimeDate}">
+                                                </div>
+
+                                                <div class="form-group mb-4">
+                                                    <label for="rentalQuantity"
+                                                        class="col-form-label text-md-left fw-bold">貸出数
+                                                    </label>
+                                                    <div th:if="${#fields.hasErrors('rentalQuantity')}" class="text-danger small mb-2" th:errors="*{rentalQuantity}"></div>
+                                                    <input type="number" class="form-control"
+                                                        th:field="*{rentalQuantity}" min="1">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn text-white shadow-sm w-100 moatmusic-btn">予約
+                                                        する</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </main>
 
         <!-- フッター -->
@@ -112,6 +149,10 @@
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
+    <!-- Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+    <script th:src="@{/js/flatpickr.js}"></script>
 </body>
 
 </html>

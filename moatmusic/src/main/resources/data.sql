@@ -43,14 +43,14 @@ INSERT IGNORE INTO users (id, name, furigana, postal_code, address, phone_number
 INSERT IGNORE INTO users (id, name, furigana, postal_code, address, phone_number, email, password, role_id, enabled) VALUES (12, '侍 信平', 'サムライ シンペイ', '673-1324', '兵庫県加東市新定X-XX-XX', '090-1234-5678', 'shinpei.samurai@example.com', 'password', 1, false);
 
 -- reservationsテーブル
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (1, 1, 1, '2023-04-01 8:00:00', '2023-04-01 10:00:00', 2, 1000);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (2, 2, 1, '2023-04-01 8:00:00', '2023-04-01 11:00:00', 3, 1500);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (3, 3, 1, '2023-04-01 8:00:00', '2023-04-01 12:00:00', 4, 2000);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (4, 4, 1, '2023-04-01 8:00:00', '2023-04-01 13:00:00', 5, 2500);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (5, 5, 1, '2023-04-01 8:00:00', '2023-04-01 14:00:00', 6, 3000);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (6, 6, 1, '2023-04-01 8:00:00', '2023-04-01 10:00:00', 2, 1000);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (7, 7, 1, '2023-04-01 8:00:00', '2023-04-01 11:00:00', 3, 1500);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (8, 8, 1, '2023-04-01 8:00:00', '2023-04-01 12:00:00', 4, 2000);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (9, 9, 1, '2023-04-01 8:00:00', '2023-04-01 13:00:00', 5, 2500);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (10, 10, 1, '2023-04-01 8:00:00', '2023-04-01 14:00:00', 6, 3000);
-INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time, rental_end_time, rental_quantity, amount) VALUES (11, 11, 1, '2023-04-01 8:00:00', '2023-04-01 10:00:00', 2, 1000);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (1, 1, 1, '2023-04-01 8:00:00', '2023-04-01 10:00:00', 2, 2000);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (2, 2, 1, '2023-04-01 8:00:00', '2023-04-01 11:00:00', 3, 4500);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (3, 3, 1, '2023-04-01 8:00:00', '2023-04-01 12:00:00', 4, 11200);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (4, 4, 1, '2023-04-01 8:00:00', '2023-04-01 13:00:00', 5, 17500);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (5, 5, 1, '2023-04-01 8:00:00', '2023-04-01 14:00:00', 6, 25200);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (6, 6, 1, '2023-04-01 8:00:00', '2023-04-01 10:00:00', 2, 3600);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (7, 7, 1, '2023-04-01 8:00:00', '2023-04-01 11:00:00', 3, 8100);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (8, 8, 1, '2023-04-01 8:00:00', '2023-04-01 12:00:00', 4, 14400);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (9, 9, 1, '2023-04-01 8:00:00', '2023-04-01 13:00:00', 5, 17500);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (10, 10, 1, '2023-04-01 8:00:00', '2023-04-01 14:00:00', 6, 25200);
+INSERT IGNORE INTO reservations (id, string_instrument_id, user_id, rental_start_time_date, rental_end_time_date, rental_quantity, amount) VALUES (11, 11, 1, '2023-04-01 8:00:00', '2023-04-01 10:00:00', 2, 2800);

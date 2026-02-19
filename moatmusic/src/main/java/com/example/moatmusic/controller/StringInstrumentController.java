@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.moatmusic.entity.StringInstrument;
+import com.example.moatmusic.form.ReservationInputForm;
 import com.example.moatmusic.repository.StringInstrumentRepository;
 
 @Controller
@@ -80,7 +81,7 @@ public class StringInstrumentController {
         StringInstrument stringInstrument = stringInstrumentRepository.getReferenceById(id);
 
         model.addAttribute("stringInstrument", stringInstrument);
-
+        model.addAttribute("reservationInputForm", new ReservationInputForm());
         return "stringInstrument/show";
     }
 }

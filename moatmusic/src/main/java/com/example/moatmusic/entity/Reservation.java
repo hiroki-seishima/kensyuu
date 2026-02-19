@@ -1,4 +1,4 @@
-package com.example.moatmusic.entity;
+package com.example.moatmusic.entity;  //reservationテーブルを紐づけるエンティティ
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -23,17 +23,17 @@ public class Reservation {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "stringInstrument_id")
+    @JoinColumn(name = "string_instrument_id")
     private StringInstrument stringInstrument;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "rental_start_time")
+    @Column(name = "rental_start_time_date")
     private LocalDateTime rentalStartTimeDate;
 
-    @Column(name = "rental_end_time")
+    @Column(name = "rental_end_time_date")
     private LocalDateTime rentalEndTimeDate;
 
     @Column(name = "rental_quantity")

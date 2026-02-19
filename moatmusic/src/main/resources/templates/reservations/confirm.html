@@ -55,7 +55,7 @@
                             <div class="container mb-4">
                                 <div class="row pb-2 mb-2 border-bottom">
                                     <div class="col-6">
-                                        <span class="fw-bold">チェックアウト日</span>
+                                        <span class="fw-bold">レンタル終了日</span>
                                     </div>
 
                                     <div class="col">
@@ -90,6 +90,8 @@
 
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn text-white shadow-sm w-100 moatmusic-btn">確定する</button>
+                                <button id="paymentButton"
+                                    class="btn text-white shadow-sm w-100 moatmusic-btn">決済する</button>
                             </div>
                         </form>
                     </div>
@@ -102,6 +104,10 @@
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
+    <script th:inline="javascript">
+        const sessionId = /*[[${sessionId}]]*/"sessionId";
+    </script>
+    <script th:src="@{/js/stripe.js}"></script>
 </body>
 
 </html>

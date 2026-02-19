@@ -27,19 +27,24 @@ import com.example.moatmusic.repository.StringInstrumentRepository;
 import com.example.moatmusic.repository.ReservationRepository;
 import com.example.moatmusic.security.UserDetailsImpl;
 import com.example.moatmusic.service.ReservationService;
+import com.example.moatmusic.service.StripeService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ReservationController {
     private final ReservationRepository reservationRepository;
     private final StringInstrumentRepository stringInstrumentRepository;
     private final ReservationService reservationService;
+    private final StripeService stripeService;
 
     public ReservationController(ReservationRepository reservationRepository,
             StringInstrumentRepository stringInstrumentRepository,
-            ReservationService reservationService) {
+            ReservationService reservationService, StripeService stripeService) {
         this.reservationRepository = reservationRepository;
         this.stringInstrumentRepository = stringInstrumentRepository;
         this.reservationService = reservationService;
+        this.stripeService = stripeService;
     }
 
     @GetMapping("/reservations")
@@ -84,7 +89,7 @@ public class ReservationController {
     @GetMapping("/stringInstrument/{id}/reservations/confirm")
     public String confirm(@PathVariable(name = "id") Integer id,
             @ModelAttribute ReservationInputForm reservationInputForm,
-            @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+            @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,HttpServletRequest httpServletRequest,
             Model model) {
         StringInstrument stringInstrument = stringInstrumentRepository.getReferenceById(id);
         User user = userDetailsImpl.getUser();
@@ -110,10 +115,10 @@ public class ReservationController {
         return "reservations/confirm";
     }
 
-    @PostMapping("/stringInstrument/{id}/reservations/create")  //予約情報をDBに作成するメソッド
-    public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {
-        reservationService.create(reservationRegisterForm);
+    // @PostMapping("/stringInstrument/{id}/reservations/create")  //予約情報をDBに作成するメソッド
+    // public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {
+    //     reservationService.create(reservationRegisterForm);
 
-        return "redirect:/reservations?reserved";
-    }
+    //     return "redirect:/reservations?reserved";
+    // }
 }

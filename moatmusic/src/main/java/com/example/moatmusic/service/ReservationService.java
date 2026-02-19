@@ -1,7 +1,9 @@
 package com.example.moatmusic.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.moatmusic.entity.StringInstrument;
 import com.example.moatmusic.entity.Reservation;
 import com.example.moatmusic.entity.User;
-import com.example.moatmusic.form.ReservationRegisterForm;
+// import com.example.moatmusic.form.ReservationRegisterForm;
 import com.example.moatmusic.repository.StringInstrumentRepository;
 import com.example.moatmusic.repository.ReservationRepository;
 import com.example.moatmusic.repository.UserRepository;
@@ -29,22 +31,35 @@ public class ReservationService {
     }
 
     @Transactional
-    public void create(ReservationRegisterForm reservationRegisterForm) {
+    // public void create(ReservationRegisterForm reservationRegisterForm) {
+    public void create(Map<String, String> paymentIntentObject) {
         Reservation reservation = new Reservation();
-        StringInstrument stringInstrument = stringInstrumentRepository
-                .getReferenceById(reservationRegisterForm.getStringInstrumentId());
-        User user = userRepository.getReferenceById(reservationRegisterForm.getUserId());
-        LocalDateTime rentalStartTimeDate = LocalDateTime.parse(reservationRegisterForm.getRentalStartTimeDate());
-        LocalDateTime rentalEndTimeDate = LocalDateTime.parse(reservationRegisterForm.getRentalEndTimeDate());
 
+        Integer stringInstrumentId = Integer.valueOf(paymentIntentObject.get("stringInstrumentId"));
+        Integer userId = Integer.valueOf(paymentIntentObject.get("userId"));
+        StringInstrument stringInstrument =
+                // stringInstrumentRepository.getReferenceById(reservationRegisterForm.getStringInstrumentId());
+                stringInstrumentRepository.getReferenceById(stringInstrumentId);
+        User user =
+                // userRepository.getReferenceById(reservationRegisterForm.getUserId());
+                userRepository.getReferenceById(userId);
+        LocalDateTime rentalStartTimeDate =
+                // LocalDateTime.parse(reservationRegisterForm.getRentalStartTimeDate());
+                LocalDateTime.parse(paymentIntentObject.get("rentalStartTimeDate"));
+        LocalDateTime rentalEndTimeDate =
+                // LocalDateTime.parse(reservationRegisterForm.getRentalEndTimeDate());
+                LocalDateTime.parse(paymentIntentObject.get("rentalEndTimeDate"));
+        Integer rentalQuantity = Integer.valueOf(paymentIntentObject.get("rentalQuantity"));
+        Integer amount = Integer.valueOf(paymentIntentObject.get("amount"));
         reservation.setStringInstrument(stringInstrument);
         reservation.setUser(user);
         reservation.setRentalStartTimeDate(rentalStartTimeDate);
         reservation.setRentalEndTimeDate(rentalEndTimeDate);
 
-        reservation.setRentalQuantity(reservationRegisterForm.getRentalQuantity());
-
-        reservation.setAmount(reservationRegisterForm.getAmount());
+        // reservation.setRentalQuantity(reservationRegisterForm.getRentalQuantity());
+        reservation.setRentalQuantity(rentalQuantity);
+        // reservation.setAmount(reservationRegisterForm.getAmount());
+        reservation.setAmount(amount);
 
         reservationRepository.save(reservation);
     }

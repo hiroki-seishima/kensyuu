@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.moatmusic.entity.StringInstrument;
@@ -109,8 +109,12 @@ public class ReservationController {
                 rentalStartTimeDate.toString(), rentalEndTimeDate.toString(),
                 reservationInputForm.getRentalQuantity(), amount);
 
+                String sessionId = stripeService.createStripeSession(stringInstrument.getName(), reservationRegisterForm, httpServletRequest);  
+
+
         model.addAttribute("stringInstrument", stringInstrument);
         model.addAttribute("reservationRegisterForm", reservationRegisterForm);
+        model.addAttribute("sessionId",sessionId);
 
         return "reservations/confirm";
     }

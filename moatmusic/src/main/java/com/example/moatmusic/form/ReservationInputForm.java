@@ -1,4 +1,38 @@
-package com.example.moatmusic.form; //予約登録フォーム
+// package com.example.moatmusic.form; //予約登録フォーム
+
+// import java.time.LocalDateTime;
+
+// import jakarta.validation.constraints.Min;
+// import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.NotNull;
+// import lombok.Data;
+
+// @Data
+// public class ReservationInputForm {
+
+//     @NotBlank(message = "レンタル期間を選択してください。")
+//     private String fromRentalStartTimeDateToRentalEndTimeDate;
+
+//     @NotNull(message = "レンタル台数を入力してください。")
+//     @Min(value = 1, message = "台数は1台以上に設定してください。")
+//     private Integer rentalQuantity;
+
+//     // レンタル開始日時を取得する
+//     public LocalDateTime getRentalStartTimeDate() {
+//         String[] rentalStartTimeDateAndRentalEndTimeDate = getFromRentalStartTimeDateToRentalEndTimeDate()
+//                 .split(" から ");
+//         return LocalDateTime.parse(rentalStartTimeDateAndRentalEndTimeDate[0]);
+//     }
+
+//     // レンタル終了日時を取得する
+//     public LocalDateTime getRentalEndTimeDate() {
+//         String[] rentalStartTimeDateAndRentalEndTimeDate = getFromRentalStartTimeDateToRentalEndTimeDate()
+//                 .split(" から ");
+//         return LocalDateTime.parse(rentalStartTimeDateAndRentalEndTimeDate[1]);
+//     }
+// }
+
+package com.example.moatmusic.form;
 
 import java.time.LocalDateTime;
 
@@ -17,17 +51,28 @@ public class ReservationInputForm {
     @Min(value = 1, message = "台数は1台以上に設定してください。")
     private Integer rentalQuantity;
 
-    // レンタル開始日時を取得する
+    // レンタル開始日時を取得する（Null安全版）
     public LocalDateTime getRentalStartTimeDate() {
-        String[] rentalStartTimeDateAndRentalEndTimeDate = getFromRentalStartTimeDateToRentalEndTimeDate()
-                .split(" から ");
-        return LocalDateTime.parse(rentalStartTimeDateAndRentalEndTimeDate[0]);
+        String range = getFromRentalStartTimeDateToRentalEndTimeDate();
+        if (range == null || !range.contains(" から ")) {
+            throw new IllegalArgumentException("レンタル期間が不正です: " + range);
+        }
+        String startDate = range.split(" から ")[0].trim();
+        return LocalDateTime.parse(startDate);
     }
 
-    // レンタル終了日時を取得する
+    // レンタル終了日時を取得する（Null安全版）
     public LocalDateTime getRentalEndTimeDate() {
-        String[] rentalStartTimeDateAndRentalEndTimeDate = getFromRentalStartTimeDateToRentalEndTimeDate()
-                .split(" から ");
-        return LocalDateTime.parse(rentalStartTimeDateAndRentalEndTimeDate[1]);
+        String range = getFromRentalStartTimeDateToRentalEndTimeDate();
+        if (range == null || !range.contains(" から ")) {
+            throw new IllegalArgumentException("レンタル期間が不正です: " + range);
+        }
+        String[] parts = range.split(" から ");
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("終了日時が見つかりません");
+        }
+        String endDate = parts[1].trim();
+        return LocalDateTime.parse(endDate);
     }
 }
+

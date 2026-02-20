@@ -28,17 +28,23 @@ public class WebSecurityConfig {
                         .loginProcessingUrl("/login") // ログインフォームの送信先URL
                         .defaultSuccessUrl("/?loggedIn") // ログイン成功時のリダイレクト先URL
                         .failureUrl("/login?error") // ログイン失敗時のリダイレクト先URL
-                        .permitAll())
+                        .permitAll()
+                )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/?loggedOut") // ログアウト時のリダイレクト先URL
-                        .permitAll());
+                        .permitAll()
+                )
+                
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/stripe/webhook")
+                );
 
         return http.build();
-    }
+        }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
 }
